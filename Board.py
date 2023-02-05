@@ -41,6 +41,16 @@ class Board:
     def reset_board(self):
         self.cells = [" ", " ", " ", " ", " ", " ", " ", " ", " ", " "]
 
+    def is_tie(self):
+        used_cells = 0
+        for cell in self.cells:
+            if cell != ' ':
+                used_cells += 1
+        if used_cells == 9:
+            return True
+        else:
+            return False
+
 
 board = Board()
 
@@ -77,6 +87,16 @@ while True:
         else:
             break
 
+    if board.is_tie():
+        print('\n Tie \n')
+        play_again = input("Would you like to play again ? (Y/N)").upper()
+        if play_again == 'Y':
+            board.reset_board()
+            continue
+        else:
+            break
+
+
     #Get O input
     x_choice = int(input("\n O) Please choose 1-9. > "))
     #update board
@@ -88,6 +108,15 @@ while True:
     #Check for O win
     if board.is_winner('O'):
         print('\n O Wins \n')
+        play_again = input("Would you like to play again ? (Y/N)").upper()
+        if play_again == 'Y':
+            board.reset_board()
+            continue
+        else:
+            break
+
+    if board.is_tie():
+        print('\n  Tie \n')
         play_again = input("Would you like to play again ? (Y/N)").upper()
         if play_again == 'Y':
             board.reset_board()
