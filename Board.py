@@ -19,27 +19,39 @@ class Board:
             self.cells[cell_no] = player
 
     def is_winner(self, player):
-        if self.cells[1] == player and self.cells[2] == player and self.cells[3] == player:
-            return True
-        elif self.cells[4] == player and self.cells[5] == player and self.cells[6] == player:
-            return True
-        elif self.cells[7] == player and self.cells[8] == player and self.cells[9] == player:
-            return True
-        elif self.cells[1] == player and self.cells[4] == player and self.cells[7] == player:
-            return True
-        elif self.cells[2] == player and self.cells[5] == player and self.cells[8] == player:
-            return True
-        elif self.cells[3] == player and self.cells[6] == player and self.cells[9] == player:
-            return True
-        elif self.cells[1] == player and self.cells[5] == player and self.cells[9] == player:
-            return True
-        elif self.cells[3] == player and self.cells[5] == player and self.cells[7] == player:
-            return True
+        winning_combos = [[1, 2, 3], [4, 5, 6], [7, 8, 9], [1, 4, 7], [2, 5, 8], [3, 6, 9], [1, 5, 9], [3, 5, 7]]
+        result = True
+        for combo in winning_combos:
+            for cell_num in combo:
+                if self.cells[cell_num] != player:
+                    return False
 
-        return False
+            if result == True:
+                return True
 
     def reset_board(self):
         self.cells = [" ", " ", " ", " ", " ", " ", " ", " ", " ", " "]
+
+    def ai_move(self, player):
+
+        if player == 'X':
+            enemy = 'O'
+        else:
+            enemy = 'X'
+
+        #occupy center
+        if self.cells[5] == " ":
+            self.update_cell(5,player)
+
+        #AI Wins
+
+        #AI Blocks
+
+        #Random Move
+        for i in range(1,10):
+            if self.cells[i] != ' ':
+                self.update_cell(i,player)
+                break
 
     def is_tie(self):
         used_cells = 0
@@ -54,28 +66,31 @@ class Board:
 
 board = Board()
 
+
 def print_header():
     print('Welcome to tic - tac - toe')
 
+
 def refresh_screen():
-    #clear the screen
+    # clear the screen
     os.system("clear")
 
-    #print header
+    # print header
     print_header()
 
-    #Show the board
+    # Show the board
     board.display()
+
 
 while True:
 
     refresh_screen()
 
-    #Get X input
+    # Get X input
     x_choice = int(input("\n X) Please choose 1-9. > "))
-    #update board
+    # update board
     board.update_cell(x_choice, 'X')
-    #refresh screen
+    # refresh screen
     refresh_screen()
 
     if board.is_winner('X'):
@@ -96,16 +111,15 @@ while True:
         else:
             break
 
-
-    #Get O input
+    # Get O input
     x_choice = int(input("\n O) Please choose 1-9. > "))
-    #update board
+    # update board
     board.update_cell(x_choice, 'O')
 
     # refresh screen
     refresh_screen()
 
-    #Check for O win
+    # Check for O win
     if board.is_winner('O'):
         print('\n O Wins \n')
         play_again = input("Would you like to play again ? (Y/N)").upper()
@@ -123,6 +137,3 @@ while True:
             continue
         else:
             break
-
-
-
